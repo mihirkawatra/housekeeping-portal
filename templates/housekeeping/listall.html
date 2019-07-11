@@ -1,0 +1,21 @@
+{% extends "housekeeping/base.html" %}
+{% block content %}
+    <div class="container">
+      <br>
+      <div class="jumbotron">
+    {% if list %}
+    <ol>
+    {% for item in list %}
+      <li>
+          <a href='/worker/{{item.id}}'><b>Name:</b> {{item.name}}<br>
+          <b>Object ID:</b> {{item.id}}<br></a>
+      </li>
+      <br>
+    {% endfor %}
+  </ol>
+  {% else %}
+  <p>No Records Found!</p>
+  {% endif %}
+{% endblock %}
+  </body>
+</html>

@@ -21,9 +21,9 @@ from household.views import *
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("", index_view, name='index'),
-    path("add-asset", add_asset, name='add_asset'),
-    path("add-task", add_task, name='add_task'),
-    path("add-worker", add_worker, name='add_worker'),
+    path("add-asset", AssetView.as_view(), name='add_asset'),
+    path("add-task", TaskView.as_view(), name='add_task'),
+    path("add-worker", WorkerView.as_view(), name='add_worker'),
     path("assets/all", assets_all, name='all_assets'),
     path("allocate-task", task_allocate, name='allocate'),
     path("workers/all", workers_all, name='all_assets'),
