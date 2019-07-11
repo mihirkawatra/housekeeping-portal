@@ -5,7 +5,8 @@ from django.shortcuts import render,redirect
 from .models import Asset, Task, Worker
 # Create your views here.
 def index_view(request):
-    return HttpResponse("<h1> Hello </h1>")
+    return render(request,'housekeeping/index.html')
+    # return HttpResponse("<h1> Hello </h1>")
 
 def add_asset(request):
     return HttpResponse("<h1> Hello </h1>")
@@ -20,6 +21,9 @@ def assets_all(request):
     return HttpResponse("<h1> Hello </h1>")
 
 def task_allocate(request):
+    return HttpResponse("<h1> Hello </h1>")
+
+def workers_all(request):
     return HttpResponse("<h1> Hello </h1>")
 
 def worker_view(request, workerid):
