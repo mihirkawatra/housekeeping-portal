@@ -1,0 +1,25 @@
+{% extends "housekeeping/base.html" %}
+{% block content %}
+<div class="container">
+  <br>
+  <div class="jumbotron">
+{% if action == 'add_asset' %}
+<form method="post" name="create" action="{% url 'add_asset' %}">
+{% elif action == 'add_task' %}
+<form method="post" name="create" action="{% url 'add_task' %}">
+{% elif action == 'add_worker' %}
+<form method="post" name="create" action="{% url 'add_worker' %}">
+{% endif %}
+<table>
+{{form.as_table}}
+{%csrf_token%}
+</table>
+<br><br>
+<button type="submit" class="btn btn-primary" value="submit">Submit</button>
+</form>
+ <br>
+</div>
+</div>
+{% endblock %}
+</body>
+</html>

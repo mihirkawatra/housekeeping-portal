@@ -18,8 +18,8 @@ class Allocation(models.Model):
     task_id                 = models.ForeignKey('Task', on_delete=models.CASCADE, default=None, blank=True)
     asset_id                = models.ForeignKey('Asset', on_delete=models.CASCADE, default=None, blank=True)
     worker_id               = models.ForeignKey('Worker', on_delete=models.CASCADE, default=None, blank=True)
-    time_of_allocation      = models.DateTimeField( blank=True, auto_now=True)
-    task_to_be_performed_by = models.DateTimeField( blank=True)
+    time_of_allocation      = models.DateTimeField(blank=True, auto_now=True)
+    task_to_be_performed_by = models.DateField(blank=True)
 
 class Worker(models.Model):
     id                      = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)

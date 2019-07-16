@@ -25,7 +25,7 @@ urlpatterns = [
     path("add-task", TaskView.as_view(), name='add_task'),
     path("add-worker", WorkerView.as_view(), name='add_worker'),
     path("assets/all", assets_all, name='all_assets'),
-    path("allocate-task", task_allocate, name='allocate'),
+    path("allocate-task", AllocateView.as_view(), name='allocate'),
     path("workers/all", workers_all, name='all_assets'),
     re_path(r"^worker/(?P<workerid>[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12})/$", worker_view, name='worker'),
 ]

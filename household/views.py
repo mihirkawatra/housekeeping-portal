@@ -5,7 +5,9 @@ from django.views.generic.edit import FormView
 from django.http import Http404, HttpResponseForbidden, HttpResponseRedirect, HttpResponse
 from django.shortcuts import render,redirect
 from .models import Asset, Task, Worker, Allocation
-from .forms import AssetForm, TaskForm, WorkerForm
+from .forms import AssetForm, TaskForm, WorkerForm, AllocationForm
+from datetime import datetime
+from uuid import UUID
 
 def index_view(request):
     return render(request,'housekeeping/index.html')
@@ -76,6 +78,8 @@ class WorkerView(FormView):
         print("Posted")
 
     def form_valid(self, form):
+        print(form)
+        print(form.cleaned_data)
         name = form.cleaned_data.get("name")
         Worker.objects.create(name=name)
         return super().form_valid(form)
@@ -84,8 +88,30 @@ def assets_all(request):
     assets = Asset.objects.all()
     return render(request,'housekeeping/listall.html', context={'list' : assets, 'name': 'Assets'})
 
-def task_allocate(request):
-    return HttpResponse("<h1> Model Ready. Couldn't implement functionality in time.  </h1>")
+# def task_allocate(request):
+#     return render(request,'housekeeping/allocation.html', context={'form': AllocationForm})
+
+class AllocateView(FormView):
+    template_name = 'housekeeping/allocation.html'
+    form_class = AllocationForm
+    success_url = './'
+
+    def post(self, request, *args, **kwargs):
+        form = AllocationForm(request.POST)
+        print("Form Received")
+        return self.form_valid(form)
+
+    def form_valid(self, form):
+        print(form)
+        worker_id = form.cleaned_data.get("worker_id")
+        asset_id = form.cleaned_data.get("asset_id")
+        task_id = form.cleaned_data.get("task_id")
+        deadline = str(datetime.strptime(str(form.cleaned_data.get("deadline")).split('+')[0], '%Y-%m-%d %H:%M:%S').date())
+        worker = Worker.objects.filter(id = UUID(str(worker_id)))[0]
+        task = Task.objects.filter(id = UUID(str(task_id)))[0]
+        asset = Asset.objects.filter(id = UUID(str(asset_id)))[0]
+        Allocation.objects.create(asset_id=asset, task_id=task, worker_id=worker, task_to_be_performed_by=deadline)
+        return super().form_valid(form)
 
 def workers_all(request):
     workers = Worker.objects.all()
