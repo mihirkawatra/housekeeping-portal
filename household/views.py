@@ -2,7 +2,7 @@ from django.views.decorators.http import require_http_methods
 from django.views.generic.edit import FormMixin
 from django.views.generic import DetailView, TemplateView
 from django.views.generic.edit import FormView
-from django.http import Http404, HttpResponseForbidden,HttpResponseRedirect, HttpResponse
+from django.http import Http404, HttpResponseForbidden, HttpResponseRedirect, HttpResponse
 from django.shortcuts import render,redirect
 from .models import Asset, Task, Worker, Allocation
 from .forms import AssetForm, TaskForm, WorkerForm
@@ -11,9 +11,15 @@ def index_view(request):
     return render(request,'housekeeping/index.html')
 
 class AssetView(FormView):
-    template_name = 'housekeeping/asset_form.html'
+    template_name = 'housekeeping/form.html'
     form_class = AssetForm
     success_url = './'
+
+    def get_context_data(self, **kwargs):
+        """Use this to add extra context."""
+        context = super(AssetView, self).get_context_data(**kwargs)
+        context['action'] = 'add_asset'
+        return context
 
     def post(self, request, *args, **kwargs):
         print("Form Received")
@@ -29,9 +35,15 @@ class AssetView(FormView):
         return super().form_valid(form)
 
 class TaskView(FormView):
-    template_name = 'housekeeping/task_form.html'
+    template_name = 'housekeeping/form.html'
     form_class = TaskForm
     success_url = './'
+
+    def get_context_data(self, **kwargs):
+        """Use this to add extra context."""
+        context = super(TaskView, self).get_context_data(**kwargs)
+        context['action'] = 'add_task'
+        return context
 
     def post(self, request, *args, **kwargs):
         print("Form Received")
@@ -47,9 +59,15 @@ class TaskView(FormView):
         return super().form_valid(form)
 
 class WorkerView(FormView):
-    template_name = 'housekeeping/worker_form.html'
+    template_name = 'housekeeping/form.html'
     form_class = WorkerForm
     success_url = './'
+
+    def get_context_data(self, **kwargs):
+        """Use this to add extra context."""
+        context = super(WorkerView, self).get_context_data(**kwargs)
+        context['action'] = 'add_worker'
+        return context
 
     def post(self, request, *args, **kwargs):
         print("Form Received")
@@ -58,7 +76,6 @@ class WorkerView(FormView):
         print("Posted")
 
     def form_valid(self, form):
-        print(form)
         name = form.cleaned_data.get("name")
         Worker.objects.create(name=name)
         return super().form_valid(form)
@@ -87,6 +104,6 @@ def worker_view(request, workerid):
             dic['frequency'] = curr_task['frequency']
             dic['asset_name'] = curr_asset['name']
             t.append(dic)
-        return render(request,'housekeeping/view.html', context={'tasks' : t, 'name' : str(obj.name)})
     except Worker.DoesNotExist:
-        return HttpResponse(f"<h1>Worker not found</h1>")
+        raise Http404("Worker Does Not Exist")
+    return render(request,'housekeeping/view.html', context={'tasks' : t, 'name' : str(obj.name)})
