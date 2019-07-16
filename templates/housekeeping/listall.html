@@ -3,12 +3,19 @@
     <div class="container">
       <br>
       <div class="jumbotron">
+    <h4>{{ name }}</h4>
     {% if list %}
     <ol>
     {% for item in list %}
       <li>
-          <a href='/worker/{{item.id}}'><b>Name:</b> {{item.name}}<br>
-          <b>Object ID:</b> {{item.id}}<br></a>
+          {% if name == 'Workers' %}
+          <a href='/worker/{{item.id}}'>
+          {% endif %}
+          <b>Name:</b> {{item.name}}<br>
+          <b>Object ID:</b> {{item.id}}<br>
+          {% if name == 'Workers' %}
+          </a>
+          {% endif %}
       </li>
       <br>
     {% endfor %}

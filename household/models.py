@@ -1,6 +1,5 @@
 from django.db import models
 import uuid
-# Create your models here.
 class Asset(models.Model):
     id                      = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name                    = models.CharField(max_length=20)
@@ -20,8 +19,7 @@ class Allocation(models.Model):
     asset_id                = models.ForeignKey('Asset', on_delete=models.CASCADE, default=None, blank=True)
     worker_id               = models.ForeignKey('Worker', on_delete=models.CASCADE, default=None, blank=True)
     time_of_allocation      = models.DateTimeField( blank=True, auto_now=True)
-    task_to_be_performed_by = models.DateTimeField( blank=True, auto_now=True)
-    
+    task_to_be_performed_by = models.DateTimeField( blank=True)
 
 class Worker(models.Model):
     id                      = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)

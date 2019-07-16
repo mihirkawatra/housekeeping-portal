@@ -9,8 +9,8 @@
     {% for task in tasks %}
       <li>
           <b>Name:</b> {{task.name}}<br>
+          <b>Asset:</b> {{task.asset_name}}<br>
           <b>Frequency:</b> {{task.frequency}}<br>
-          <b>Asset:</b> {{task.asset_id}}<br>
           <b>Deadline:</b> {{ task.task_to_be_performed_by }}<br>
       </li>
       <br>
