@@ -7,7 +7,6 @@ Housekeeping Portal made as part of recruitment task at Udaan.
  - `pip install -r requirements.txt`
 
 ## Steps to run
- - `cd Mihir_Kawatra_VIT_16BCE0060`
  - `python manage.py makemigrations`
  - `python manage.py migrate`
  - `python manage.py runserver`
